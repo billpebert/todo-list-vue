@@ -1,3 +1,7 @@
+<script setup>
+	import Button from "../components/Button.vue";
+</script>
+
 <template>
 	<!-- Modal -->
 	<div
@@ -48,15 +52,10 @@
 				<div
 					class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4"
 				>
-                <button
-					type="button"
-					class="flex items-center text-white text-lg font-semibold rounded-full bg-skyBlue px-7 py-3"
-					data-te-toggle="modal"
-					data-te-target="#exampleModal"
-				>
-					<img src="@/assets/svg/ic-plus.svg" class="mr-[6px]" alt="" />
-					Tambah
-				</button>
+                <Button
+					label="Simpan"
+					variant="primary"
+				/>
 				</div>
 			</div>
 		</div>

@@ -7,7 +7,7 @@
 		},
 		icon: {
 			type: String,
-			required: true,
+			required: false,
 		},
 		variant: {
 			type: String,
