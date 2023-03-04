@@ -3,6 +3,7 @@ module.exports = {
   content: [
     "./index.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
+    "./node_modules/tw-elements/dist/js/**/*.js"
   ],
   theme: {
     fontFamily: {
@@ -20,9 +21,12 @@ module.exports = {
       colors: {
         skyBlue: '#16ABF8',
         dark: '#111111',
-        grey: '#888888'
+        grey: '#888888',
+        danger: '#ED4C5C',
+        secondary: '#F4F4F4',
+        darkBrown: '#4A4A4A'
       }
     },
   },
-  plugins: [],
+  plugins: [require("tw-elements/dist/plugin")],
 }

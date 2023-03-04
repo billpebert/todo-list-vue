@@ -1,5 +1,6 @@
 import { createApp } from 'vue'
 import './style.css'
+import 'tw-elements'
 import router from "./router";
 import App from './App.vue'
 

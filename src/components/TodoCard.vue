@@ -13,7 +13,9 @@
 
 <template>
 	<div class="rounded-xl bg-white shadow-custom flex flex-col py-[22px] px-6 md:min-h-[235px]">
-		<h5 class="text-lg font-bold">{{ title }}</h5>
+		<h5 class="text-lg font-bold">
+            <RouterLink to="/list">{{ title }}</RouterLink>
+        </h5>
 		<div class="flex items-center justify-between mt-auto">
 			<p class="text-sm text-grey font-medium">{{ date }}</p>
 			<button type="button">

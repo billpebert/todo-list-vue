@@ -1,22 +1,13 @@
 <script setup>
 import TodoCard from "@/components/TodoCard.vue";
-
+import Button from "@/components/Button.vue";
 </script>
 
 <template>
 	<div class="container">
 		<div class="flex items-center justify-between">
-			<!-- <button type="button">
-				<img src="@/assets/svg/ic-chevron-left.svg" alt="" />
-			</button> -->
 			<h1 class="text-4xl font-bold">Activity</h1>
-			<button
-				type="button"
-				class="flex items-center text-white text-lg font-semibold rounded-full bg-skyBlue px-7 py-3"
-			>
-				<img src="@/assets/svg/ic-plus.svg" class="mr-[6px]" alt="" />
-				Tambah
-			</button>
+            <Button label="Tambah" icon="/src/assets/svg/ic-plus.svg" variant="primary" />
 		</div>
 
 		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-[50px] gap-x-5 gap-y-6">
