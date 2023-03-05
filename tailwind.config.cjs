@@ -16,6 +16,9 @@ module.exports = {
 				lg: "50px",
 				xl: "220px",
 			},
+      screens: {
+        'sm': '576px',
+      }
 		},
     extend: {
       colors: {

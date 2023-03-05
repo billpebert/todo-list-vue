@@ -1,14 +1,21 @@
 <script setup>
-	import { ref, onMounted, inject } from "vue";
+	import { ref, onMounted, inject, onUpdated } from "vue";
 	import axios from "axios";
 	import TodoCard from "@/components/TodoCard.vue";
 	import Button from "@/components/Button.vue";
 	import ModalDelete from "@/components/ModalDelete.vue";
+	import ToastProps from "../components/ToastProps.vue";
 
 	const activities = ref([]);
 	const api = inject("api");
 	const email = inject("email");
+    let showToast = ref(false)
 
+	// Pass activity variables to ModalDelete component
+	let activityName = ref();
+	let activityId = ref();
+
+	// email params to get data of drafted email only
 	async function getActivities() {
 		try {
 			const response = await axios.get(`${api}/activity-groups?email=bilpo@mail.com`);
@@ -34,15 +41,19 @@
 	}
 
 	function deleteActivity(id) {
-		// console.log(id)
 		axios
 			.delete(`${api}/activity-groups/${id}`)
-			.then(() => {
+			.then(function (response) {
 				getActivities();
+                showToast.value = true
 			})
 			.catch(function (error) {
 				console.log(error);
 			});
+	}
+
+	function passActivityData(id, name) {
+		return (activityName.value = name), (activityId.value = id);
 	}
 
 	onMounted(() => {
@@ -53,7 +64,7 @@
 <template>
 	<div class="container">
 		<div class="flex items-center justify-between">
-			<h1 class="text-4xl font-bold">Activity</h1>
+			<h1 class="text-base md:text-4xl font-bold">Activity</h1>
 			<Button label="Tambah" icon="/src/assets/svg/ic-plus.svg" variant="primary" @click="createActivity" />
 		</div>
 
@@ -63,19 +74,24 @@
 					:id="activity.id"
 					:title="activity.title"
 					:date="activity.created_at"
-					@delete-activity="deleteActivity"
+					@pass-activity-data="passActivityData"
 				/>
 			</template>
 		</div>
 
-		<a href="#" class="btn-primary pt-10" data-te-toggle="modal" data-te-target="#modalDelete">Example Modal</a>
+		<ModalDelete :activityName="activityName" :activityId="activityId" @delete-activity="deleteActivity" />
 
-		<ModalDelete />
-
+		<ToastProps v-if="showToast" />
 		<img
 			v-if="!activities.length"
 			src="@/assets/svg/activity-empty.svg"
-			class="h-[490px] w-auto mx-auto mt-[60px]"
+			class="h-[490px] w-auto mx-auto md:mt-[60px] hidden md:block"
+			alt=""
+		/>
+		<img
+			v-if="!activities.length"
+			src="@/assets/svg/activity-empty-sm-screen.svg"
+			class="w-auto mx-auto md:mt-[60px] block md:hidden mt-20"
 			alt=""
 		/>
 	</div>

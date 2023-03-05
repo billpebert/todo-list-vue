@@ -44,11 +44,11 @@
 <template>
 	<button
 		type="button"
-		class="flex items-center text-lg font-semibold rounded-full px-7 py-3 disabled:bg-opacity-20"
+		class="flex items-center text-xs md:text-lg font-semibold rounded-full px-[15px] md:px-7 py-2 md:py-3 disabled:bg-opacity-20"
 		:class="computedVariant"
 		:disabled="disabled"
 	>
-		<img :src="icon" v-if="icon" class="mr-[6px]" alt="" />
+		<img :src="icon" v-if="icon" class="mr-[6px] w-3 md:w-6" alt="" />
 		{{ label }}
 	</button>
 </template>
