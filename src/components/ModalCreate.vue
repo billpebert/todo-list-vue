@@ -1,5 +1,31 @@
 <script setup>
+	// import { Select2 } from "vue3-select2-component";
 	import Button from "../components/Button.vue";
+	import { ref, computed, inject } from "vue";
+	import axios from "axios";
+
+	const props = defineProps({
+		id: {
+			type: Number,
+			required: true,
+		},
+	});
+
+	const api = inject("api");
+	let titleForm = ref("");
+	let selectedPriority = ref("very-high");
+	let priorityOptions = ref(["very-high", "high", "normal", "low", "very-low"]);
+
+	const allowSubmit = computed(() => {
+		return titleForm.value != "";
+	});
+
+	// function showSelected(){
+	// 	console.log(titleForm)
+	// 	console.log(selectedPriority.value)
+	// }
+
+
 </script>
 
 <template>
@@ -43,19 +69,54 @@
 						</svg>
 					</button>
 				</div>
-				<div class="relative flex-auto flex flex-col gap-[26px] p-4 md:px-[30px] md:py-7" data-te-modal-body-ref>
-                    <div class="flex flex-col gap-2">
-                        <label for="" class="text-dark font-semibold text-xs">Name List Item</label>
-                        <input type="text" name="name" id="" placeholder="Tambahkan nama list item" class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200">
-                    </div>
-                </div>
+				<div
+					class="relative flex-auto flex flex-col gap-[26px] p-4 md:px-[30px] md:py-7"
+					data-te-modal-body-ref
+				>
+					<div class="flex flex-col gap-2">
+						<label for="" class="text-dark font-semibold text-xs">Name List Item</label>
+						<input
+							type="text"
+							name="name"
+							id=""
+							placeholder="Tambahkan nama list item"
+							class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200"
+							v-model="titleForm"
+						/>
+					</div>
+
+					<div class="flex flex-col gap-2">
+						<label for="" class="text-dark font-semibold text-xs">Name List Item</label>
+						<select
+							name="priority"
+							id="dd"
+							v-model="selectedPriority"
+							class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200 max-w-[200px] arrow-dropdown capitalize"
+							required
+						>
+							<template v-for="(option, index) in priorityOptions" :key="index">
+								<option :value="option" class="capitalize" :selected="index == 0">
+									{{ option.split("-").toString().replace(/,/g, " ") }}
+								</option>
+							</template>
+						</select>
+					</div>
+
+					<!-- <div>
+						<Select2 v-model="priorityForm" :options="priorityOptions" />
+						<h4>Value: {{ priorityForm }}</h4>
+					</div> -->
+				</div>
 				<div
 					class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4"
 				>
-                <Button
-					label="Simpan"
-					variant="primary"
-				/>
+					<Button
+						label="Simpan"
+						variant="primary"
+						:disabled="allowSubmit == false"
+						@click="$emit('createItem', titleForm, id, selectedPriority); titleForm=''; selectedPriority='very-high'"
+						data-te-modal-dismiss
+					/>
 				</div>
 			</div>
 		</div>

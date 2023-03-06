@@ -106,8 +106,14 @@
     width: 85%;
     color: #888888;
   }
-  
+
   .hidden-box:checked + .check--label .check--label-text p {
     color: #888888;
+  }
+}
+
+@layer components {
+  .arrow-dropdown {
+    @apply appearance-none bg-no-repeat bg-[calc(100%-24px)_center] bg-[url('/src/assets/svg/ic-chevron-down.svg')]
   }
 }

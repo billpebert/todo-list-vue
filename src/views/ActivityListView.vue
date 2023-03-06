@@ -13,6 +13,7 @@
 	let showForm = ref(false);
 	let showActivityTitle = ref(true);
 	let activityTitle = ref();
+	let showModal = ref(false)
 
 	function getActivity() {
 		axios
@@ -21,11 +22,11 @@
 				activity.value = response.data;
 				activityTitle.value = activity.value.title;
 				todo_items.value = activity.value.todo_items;
-
-				console.log(todo_items.value)
 			})
 			.catch((error) => {
 				console.log(error);
+			}).finally(() => {
+				showModal.value = true
 			});
 	}
 
@@ -49,6 +50,44 @@
 		}
 	}
 
+	function createItem(title, groupId, priority) {
+		axios
+			.post(`${api}/todo-items`, {
+				title: title,
+				activity_group_id: groupId,
+				priority: priority,
+			})
+			.then((response) => {
+				getActivity()
+				console.log(response);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}
+
+	function deleteItem(id) {
+		axios.delete(`${api}/todo-items/${id}`)
+		.then(() => {
+			getActivity()
+		})
+		.catch((error) => {
+			console.log(error)
+		})
+	}
+
+	function markAsDone(id, value) {
+		axios.patch(`${api}/todo-items/${id}`, {
+			is_active: value
+		})
+		.then(() => {
+			getActivity()
+		})
+		.catch((error) => {
+			console.log(error)
+		})
+	}
+
 	function toggleEditActName() {
 		showActivityTitle.value = !showActivityTitle.value;
 		showForm.value = !showForm.value;
@@ -59,8 +98,6 @@
 			}, 10);
 		}
 	}
-
-
 
 	onMounted(() => {
 		getActivity();
@@ -111,7 +148,7 @@
 
 		<div class="flex flex-col mt-7 md:mt-[50px] gap-y-[10px]">
 			<template v-for="item in todo_items" :key="item.id">
-				<TodoItem :id="item.id" :title="item.title" :priority="item.priority" :is-active="item.is_active" />
+				<TodoItem :id="item.id" :title="item.title" :priority="item.priority" :is-active="item.is_active" @delete-item="deleteItem" @mark-as-done="markAsDone" />
 			</template>
 		</div>
 
@@ -128,6 +165,8 @@
 			alt=""
 		/>
 
-		<ModalCreate />
+		<template v-if="showModal">
+			<ModalCreate :id="activity.id" @create-item="createItem" />
+		</template>
 	</div>
 </template>
