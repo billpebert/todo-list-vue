@@ -25,7 +25,7 @@
 <template>
 	<div class="rounded-xl bg-white shadow-custom flex flex-col py-[22px] px-6 min-h-[150px] md:min-h-[235px]">
 		<h5 class="text-sm md:text-lg font-bold">
-			<RouterLink to="/list">{{ title }}</RouterLink>
+			<RouterLink :to="`/activity-${id}`">{{ title }}</RouterLink>
 		</h5>
 		<div class="flex items-center justify-between mt-auto">
 			<p class="text-[10px] md:text-sm text-grey font-medium">{{ formattedDate }}</p>

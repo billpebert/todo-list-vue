@@ -1,6 +1,6 @@
 
 <template>
-	<div class="absolute top-8 right-4 md:top-5 md:right-5">
+	<div class="fixed top-8 right-4 md:top-5 md:right-5">
 		<!-- <div class="flex justify-center space-x-2"> -->
 		<div
 			class="pointer-events-auto mx-auto hidden w-96 max-w-full rounded-lg bg-white text-sm shadow-md shadow-black/5 data-[te-toast-show]:block data-[te-toast-hide]:hidden"

@@ -2,18 +2,95 @@
 	import TodoItem from "@/components/TodoItem.vue";
 	import Button from "../components/Button.vue";
 	import ModalCreate from "../components/ModalCreate.vue";
+	import axios from "axios";
+	import { onMounted, ref, inject, computed } from "vue";
+	import { useRoute, RouterLink } from "vue-router";
+
+	const route = useRoute();
+	const api = inject("api");
+	const activity = ref([]);
+	let todo_items = ref([]);
+	let showForm = ref(false);
+	let showActivityTitle = ref(true);
+	let activityTitle = ref();
+
+	function getActivity() {
+		axios
+			.get(`${api}/activity-groups/${route.params.id}`)
+			.then((response) => {
+				activity.value = response.data;
+				activityTitle.value = activity.value.title;
+				todo_items.value = activity.value.todo_items;
+
+				console.log(todo_items.value)
+			})
+			.catch((error) => {
+				console.log(error);
+			});
+	}
+
+	function updateActivity() {
+		if (activity.value.title != activityTitle.value) {
+			axios
+				.patch(`${api}/activity-groups/${route.params.id}`, {
+					title: activityTitle.value,
+				})
+				.then((response) => {
+					getActivity();
+				})
+				.catch((error) => {
+					console.log(error);
+				})
+				.finally(() => {
+					toggleEditActName();
+				});
+		} else {
+			console.warning("Nothing to update");
+		}
+	}
+
+	function toggleEditActName() {
+		showActivityTitle.value = !showActivityTitle.value;
+		showForm.value = !showForm.value;
+
+		if (showForm.value == true) {
+			setTimeout(() => {
+				document.getElementById("activityName").focus();
+			}, 10);
+		}
+	}
+
+
+
+	onMounted(() => {
+		getActivity();
+	});
 </script>
 
 <template>
 	<div class="container">
-		<div class="flex flex-col md:items-center justify-between gap-8">
-			<div class="inline-flex items-center gap-5 justify-between md:justify-start">
+		<div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
+			<div class="inline-flex items-center gap-5 justify-between md:justify-start w-max">
 				<!-- Back Button -->
-				<button type="button" class="hidden md:block">
-					<img src="@/assets/svg/ic-chevron-left.svg" alt="" />
-				</button>
-				<h1 class="text-base md:text-4xl font-bold">Daftar Belanja Bulanan</h1>
-				<button type="button" class="w-5 md:w-6">
+				<RouterLink to="/">
+					<button type="button" class="hidden md:block w-5 md:w-6">
+						<img src="@/assets/svg/ic-chevron-left.svg" alt="" />
+					</button>
+				</RouterLink>
+				<h1 class="text-base md:text-4xl font-bold" id="activityH1" v-if="showActivityTitle">
+					{{ activity.title }}
+				</h1>
+				<input
+					type="text"
+					class="text-base md:text-4xl font-bold border-b border-b-[#D8D8D8] py-3 read-only:border-none outline-none w-max flex-shrink"
+					v-if="showForm"
+					:placeholder="activity.title"
+					name="activity_name"
+					id="activityName"
+					v-model="activityTitle"
+					@keyup.enter="updateActivity"
+				/>
+				<button type="button" class="w-5 md:w-6" @click="toggleEditActName">
 					<img src="@/assets/svg/ic-pencil.svg" alt="" />
 				</button>
 			</div>
@@ -33,10 +110,23 @@
 		</div>
 
 		<div class="flex flex-col mt-7 md:mt-[50px] gap-y-[10px]">
-			<TodoItem title="Belanja buladnan" date="5 Oktober 2012" />
+			<template v-for="item in todo_items" :key="item.id">
+				<TodoItem :id="item.id" :title="item.title" :priority="item.priority" :is-active="item.is_active" />
+			</template>
 		</div>
 
-		<img src="@/assets/svg/item-list-empty.svg" class="h-[490px] w-auto mx-auto mt-[60px]" alt="" />
+		<img
+			src="@/assets/svg/item-list-empty.svg"
+			v-if="!todo_items.length"
+			class="h-[490px] w-auto mx-auto mt-[60px] hidden md:block"
+			alt=""
+		/>
+		<img
+			src="@/assets/svg/item-list-empty-sm-screen.svg"
+			v-if="!todo_items.length"
+			class="w-auto mx-auto mt-[60px] block md:hidden"
+			alt=""
+		/>
 
 		<ModalCreate />
 	</div>

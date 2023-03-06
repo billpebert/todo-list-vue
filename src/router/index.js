@@ -11,11 +11,15 @@ const router = createRouter({
 			component: HomeView,
 		},
 		{
-			path: "/list",
+			path: "/activity-:id",
 			name: "activity-list",
 			component: ActivityListView,
 		},
 	],
+	scrollBehavior(to, from, savedPosition) {
+		// always scroll to top
+		return { top: 0 }
+	},
 });
 
 export default router;
