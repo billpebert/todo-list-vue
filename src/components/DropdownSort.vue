@@ -22,7 +22,7 @@ onMounted(() => {
 </script>
 
 <template>
-	<div class="relative" data-te-dropdown-ref>
+	<div class="relative" data-te-dropdown-ref data-cy=todo-sort-button>
 		<button
 			type="button"
 			id="dropdownMenuButton1"
@@ -57,6 +57,7 @@ onMounted(() => {
 					data-te-dropdown-item-ref
                     id="oldest"
                     @click.prevent="$emit('sortData', 'oldest'); addCheckIcon($event)"
+					data-cy=sort-selection
 					>
                         <img src="@/assets/svg/ic-sort-oldest.svg" alt="">
                         Terlama
@@ -70,6 +71,7 @@ onMounted(() => {
 					data-te-dropdown-item-ref
                     id="asc"
                     @click.prevent="$emit('sortData', 'asc'); addCheckIcon($event)"
+					data-cy=todo-sort-button
 					>
                         <img src="@/assets/svg/ic-sort-asc.svg" alt="">
                         A-Z
@@ -83,6 +85,7 @@ onMounted(() => {
 					data-te-dropdown-item-ref
                     id="desc"
                     @click.prevent="$emit('sortData', 'desc'); addCheckIcon($event)"
+					data-cy=todo-sort-button
 					>
                         <img src="@/assets/svg/ic-sort-desc.svg" alt="">
                         Z-A

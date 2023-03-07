@@ -63,6 +63,7 @@
 					class="hidden-box"
 					:checked="!isActive"
 					@click="$emit('markAsDone', id, !isActive)"
+					data-cy=todo-item-checkbox
 				/>
 				<label :for="`${title}Checkbox`" class="check--label cursor-pointer">
 					<span class="check--label-box"></span>
@@ -87,6 +88,7 @@
 				@click="$emit('passActivityData', id, title)"
 				data-te-toggle="modal"
 				data-te-target="#modalDelete"
+				data-cy=todo-item-delete-button
 			>
 				<img src="@/assets/svg/ic-trash.svg" alt="" />
 			</button>

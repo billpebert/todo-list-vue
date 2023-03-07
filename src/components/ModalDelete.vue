@@ -20,6 +20,7 @@
 		tabindex="-1"
 		aria-labelledby="exampleModalLabel"
 		aria-hidden="true"
+		data-cy=activity-item-delete-button
 	>
 		<div
 			data-te-modal-dialog-ref
@@ -36,8 +37,8 @@
 							<span class="font-bold">"{{ activityName }}"</span>?
 						</p>
 						<div class="inline-flex gap-5">
-							<Button label="Batal" variant="secondary" data-te-modal-dismiss aria-label="Close" />
-							<Button label="Hapus" variant="danger" data-te-modal-dismiss @click="$emit('deleteActivity', activityId)" />
+							<Button label="Batal" variant="secondary" data-te-modal-dismiss aria-label="Close" data-cy=modal-delete-cancel-button />
+							<Button label="Hapus" variant="danger" data-te-modal-dismiss @click="$emit('deleteActivity', activityId)" data-cy=modal-delete-confirm-button />
 						</div>
 					</div>
 				</div>

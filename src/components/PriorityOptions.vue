@@ -42,7 +42,7 @@
 </script>
 
 <template>
-	<div class="relative w-max" data-te-dropdown-ref>
+	<div class="relative w-max" data-te-dropdown-ref data-cy=modal-add-priority-dropdown>
 		<button
 			class="flex items-center whitespace-nowrap transition duration-150 ease-in-out text-dark py-[14px] px-[18px] text-sm md:text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200 capitalize w-max group"
 			type="button"
