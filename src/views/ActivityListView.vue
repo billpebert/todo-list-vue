@@ -237,7 +237,7 @@
 
 				<Button
 					label="Tambah"
-					icon="@/assets/svg/ic-plus.svg"
+					icon="svg/ic-plus.svg"
 					variant="primary"
 					data-te-toggle="modal"
 					data-te-target="#exampleModal"

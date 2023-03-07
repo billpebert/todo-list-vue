@@ -83,7 +83,7 @@
 			<h1 class="text-base md:text-4xl font-bold">Activity</h1>
 			<Button
 				label="Tambah"
-				icon="@/assets/svg/ic-plus.svg"
+				icon="svg/ic-plus.svg"
 				variant="primary"
 				@click="createActivity"
 				data-cy="activity-add-button"

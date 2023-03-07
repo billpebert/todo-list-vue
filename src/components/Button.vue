@@ -48,7 +48,7 @@
 		:class="computedVariant"
 		:disabled="disabled"
 	>
-		<img :src="icon" v-if="icon" class="mr-[6px] w-3 md:w-6" alt="" />
+		<img :src="`@/assets/${icon}`" v-if="icon" class="mr-[6px] w-3 md:w-6" alt="" />
 		{{ label }}
 	</button>
 </template>
