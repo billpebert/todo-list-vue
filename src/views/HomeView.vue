@@ -81,13 +81,23 @@
 	<div class="container" v-if="!isLoading" data-cy="home-view">
 		<div class="flex items-center justify-between">
 			<h1 class="text-base md:text-4xl font-bold">Activity</h1>
-			<Button
+			<!-- <Button
 				label="Tambah"
 				icon="svg/ic-plus.svg"
 				variant="primary"
 				@click="createActivity"
 				data-cy="activity-add-button"
-			/>
+			/> -->
+			<button
+				type="button"
+				class="flex items-center text-xs md:text-lg font-semibold rounded-full px-[15px] md:px-7 py-2 md:py-3 disabled:bg-opacity-20 bg-skyBlue text-white"
+				data-cy="activity-add-button"
+				data-te-toggle="modal"
+				data-te-target="#exampleModal"
+			>
+				<img src="@/assets/svg/ic-plus.svg" class="mr-[6px] w-3 md:w-6" alt="" />
+				Tambah
+			</button>
 		</div>
 
 		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-[50px] gap-x-5 gap-y-6">
@@ -105,7 +115,7 @@
 			:activityName="activityName"
 			:activityId="activityId"
 			@delete-activity="deleteActivity"
-			data-cy="modal-delete"
+			data-cy="activity-item-delete-button"
 		/>
 
 		<ToastProps v-if="showToast" :text="toastText" data-cy="toast-props" />

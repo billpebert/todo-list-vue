@@ -27,8 +27,8 @@
 		class="rounded-xl bg-white shadow-custom flex flex-col py-[22px] px-6 min-h-[150px] md:min-h-[235px]"
 		data-cy="activity-item"
 	>
-		<h5 class="text-sm md:text-lg font-bold" data-cy="activity-title">
-			<RouterLink :to="`/activity-${id}`">{{ title }}</RouterLink>
+		<h5 class="text-sm md:text-lg font-bold">
+			<RouterLink :to="`/activity-${id}`"  data-cy="activity-item-title">{{ title }}</RouterLink>
 		</h5>
 		<div class="flex items-center justify-between mt-auto">
 			<p class="text-[10px] md:text-sm text-grey font-medium" data-cy="activity-item-date">{{ formattedDate }}</p>

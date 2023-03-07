@@ -209,12 +209,7 @@
 						<img src="@/assets/svg/ic-chevron-left.svg" alt="" />
 					</button>
 				</RouterLink>
-				<h1
-					class="text-base md:text-4xl font-bold"
-					id="activityH1"
-					v-if="showActivityTitle"
-					data-cy="todo-title"
-				>
+				<h1 class="text-base md:text-4xl font-bold" id="activityH1" v-if="showActivityTitle">
 					{{ activity.title }}
 				</h1>
 				<input
@@ -226,6 +221,7 @@
 					id="activityName"
 					v-model="activityTitle"
 					@keyup.enter="updateActivity"
+					data-cy="todo-title"
 				/>
 				<button type="button" class="w-5 md:w-6" @click="toggleEditActName">
 					<img src="@/assets/svg/ic-pencil.svg" alt="" />
@@ -235,14 +231,24 @@
 				<!-- Sort Button -->
 				<DropdownSort data-cy="dropdown-sort" @sort-data="sortData" />
 
-				<Button
+				<!-- <Button
 					label="Tambah"
 					icon="svg/ic-plus.svg"
 					variant="primary"
 					data-te-toggle="modal"
 					data-te-target="#exampleModal"
 					data-cy="todo-add-button"
-				/>
+				/> -->
+				<button
+					type="button"
+					class="flex items-center text-xs md:text-lg font-semibold rounded-full px-[15px] md:px-7 py-2 md:py-3 disabled:bg-opacity-20 bg-skyBlue text-white"
+					data-cy="todo-add-button"
+					data-te-toggle="modal"
+					data-te-target="#exampleModal"
+				>
+					<img src="@/assets/svg/ic-plus.svg" class="mr-[6px] w-3 md:w-6" alt="" />
+					Tambah
+				</button>
 			</div>
 		</div>
 
@@ -295,7 +301,7 @@
 				:activityName="activityName"
 				:activityId="activityId"
 				@delete-activity="deleteActivity"
-				data-cy="modal-delete"
+				data-cy="activity-item-delete-button"
 			/>
 		</template>
 	</div>

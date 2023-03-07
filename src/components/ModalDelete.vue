@@ -20,7 +20,6 @@
 		tabindex="-1"
 		aria-labelledby="exampleModalLabel"
 		aria-hidden="true"
-		data-cy="activity-item-delete-button"
 	>
 		<div
 			data-te-modal-dialog-ref
