@@ -19,7 +19,7 @@ defineProps({
 			data-te-toast-init
 			data-te-toast-show
 			data-te-animation="true"
-			data-te-class-fadeIn
+			data-te-class-fade-in
 		>
 			<div class="flex items-center rounded-xl bg-white px-6 py-4">
 				<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

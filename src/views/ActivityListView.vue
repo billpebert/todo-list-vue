@@ -20,6 +20,7 @@
 	let showModal = ref(false);
 	let showToast = ref(false);
 	let toastText = ref("");
+	let isLoading = ref(false);
 
 	// Pass activity variables to ModalDelete component
 	let activityName = ref();
@@ -31,18 +32,24 @@
 	let itemPriority = ref();
 
 	function getActivity() {
+		isLoading.value = true;
 		axios
 			.get(`${api}/activity-groups/${route.params.id}`)
 			.then((response) => {
 				activity.value = response.data;
 				activityTitle.value = activity.value.title;
 				todo_items.value = activity.value.todo_items;
+
+				if (localStorage.getItem("sortBy")) {
+					sortData(localStorage.getItem("sortBy"));
+				}
 			})
 			.catch((error) => {
 				console.log(error);
 			})
 			.finally(() => {
 				showModal.value = true;
+				isLoading.value = false;
 			});
 	}
 
@@ -84,6 +91,7 @@
 
 	function updateItem(title, itemId, groupId, priority) {
 		// console.log(title, itemId, groupId, priority)
+		isLoading.value = true;
 		axios
 			.patch(`${api}/todo-items/${itemId}`, {
 				id: itemId,
@@ -96,6 +104,7 @@
 			})
 			.finally(() => {
 				getActivity();
+				isLoading.value = false;
 			});
 	}
 
@@ -117,9 +126,9 @@
 			.patch(`${api}/todo-items/${id}`, {
 				is_active: value,
 			})
-			// .then(() => {
-			// 	getActivity();
-			// })
+			.then(() => {
+				getActivity();
+			})
 			.catch((error) => {
 				console.log(error);
 			});
@@ -147,8 +156,10 @@
 	}
 
 	function sortData(type) {
-		const todoItems = todo_items.value
-		console.log(activity.value.todo_items)
+		localStorage.setItem("sortBy", type);
+
+		const todoItems = todo_items.value;
+		// console.log(activity.value.todo_items)
 		if (type == "asc") {
 			todoItems.sort(function (a, b) {
 				// changing the case (to upper or lower) ensures a case insensitive sort.
@@ -168,17 +179,17 @@
 			todoItems.sort(function (a, b) {
 				let idA = new Date(a.id);
 				let idB = new Date(b.id);
-				return idB - idA
+				return idB - idA;
 			});
 		} else if (type == "oldest") {
 			todoItems.sort(function (a, b) {
 				let idA = new Date(a.id);
 				let idB = new Date(b.id);
-				return idA - idB
+				return idA - idB;
 			});
 		} else if (type == "ongoing") {
 			todoItems.sort(function (a, b) {
-				return a.is_active - b.is_active
+				return a.is_active - b.is_active;
 			});
 		}
 	}
@@ -189,7 +200,7 @@
 </script>
 
 <template>
-	<div class="container" data-cy="activity-list-item">
+	<div class="container" data-cy="activity-list-item" v-if="!isLoading">
 		<div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
 			<div class="inline-flex items-center gap-5 justify-between md:justify-start w-max">
 				<!-- Back Button -->
@@ -282,4 +293,7 @@
 			/>
 		</template>
 	</div>
+	<template v-else>
+		<img src="@/assets/svg/loader.svg" class="mx-auto" alt="" />
+	</template>
 </template>

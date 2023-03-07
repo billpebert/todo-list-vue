@@ -1,11 +1,11 @@
 <script setup>
-	// import { Select2 } from "vue3-select2-component";
 	import Button from "../components/Button.vue";
 	import { ref, computed } from "vue";
+	import PriorityOptions from "./PriorityOptions.vue";
 
 	const props = defineProps({
 		modalType: {
-			type: String
+			type: String,
 		},
 		activityId: {
 			type: Number,
@@ -15,13 +15,13 @@
 			type: Number,
 		},
 		selectedPriority: {
-			default: 'very-high',
-			type: String
+			default: "very-high",
+			type: String,
 		},
 		titleForm: {
 			default: "",
-			type: String
-		}
+			type: String,
+		},
 	});
 
 	let titleForm = ref("");
@@ -32,12 +32,9 @@
 		return titleForm.value != "";
 	});
 
-	// function showSelected(){
-	// 	console.log(titleForm)
-	// 	console.log(selectedPriority.value)
-	// }
-
-
+	function updateSelected(val) {
+		selectedPriority.value = val;
+	}
 </script>
 
 <template>
@@ -61,7 +58,7 @@
 					class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4"
 				>
 					<h5 class="text-lg font-medium leading-normal text-neutral-800" id="exampleModalLabel">
-						{{ modalType == 'create' ? 'Tambah List' : 'Edit' }} Item
+						{{ modalType == "create" ? "Tambah List" : "Edit" }} Item
 					</h5>
 					<button
 						type="button"
@@ -92,32 +89,15 @@
 							name="name"
 							id=""
 							placeholder="Tambahkan nama list item"
-							class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200"
+							class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-sm md:text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200"
 							v-model="titleForm"
 						/>
 					</div>
 
 					<div class="flex flex-col gap-2">
 						<label for="" class="text-dark font-semibold text-xs">Name List Item</label>
-						<select
-							name="priority"
-							id="dd"
-							v-model="selectedPriority"
-							class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200 max-w-[200px] arrow-dropdown capitalize"
-							required
-						>
-							<template v-for="(option, index) in priorityOptions" :key="index">
-								<option :value="option" class="capitalize" :selected="index == 0">
-									{{ option.split("-").toString().replace(/,/g, " ") }}
-								</option>
-							</template>
-						</select>
+						<PriorityOptions :priorities="priorityOptions" @update-selected="updateSelected" data-cy="priority-options" />
 					</div>
-
-					<!-- <div>
-						<Select2 v-model="priorityForm" :options="priorityOptions" />
-						<h4>Value: {{ priorityForm }}</h4>
-					</div> -->
 				</div>
 				<div
 					class="flex flex-shrink-0 flex-wrap items-center justify-end rounded-b-md border-t-2 border-neutral-100 border-opacity-100 p-4"
@@ -126,7 +106,11 @@
 						label="Simpan"
 						variant="primary"
 						:disabled="allowSubmit == false"
-						@click="$emit('createItem', titleForm, activityId, selectedPriority); titleForm=''; selectedPriority='very-high'"
+						@click="
+							$emit('createItem', titleForm, activityId, selectedPriority);
+							titleForm = '';
+							selectedPriority = 'very-high';
+						"
 						data-te-modal-dismiss
 					/>
 				</div>
