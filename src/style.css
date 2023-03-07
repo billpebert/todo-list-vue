@@ -116,4 +116,8 @@
   .arrow-dropdown {
     @apply appearance-none bg-no-repeat bg-[calc(100%-24px)_center] bg-[url('/src/assets/svg/ic-chevron-down.svg')]
   }
+
+  .sort-bg-check {
+    @apply appearance-none bg-no-repeat bg-[calc(100%-24px)_center] bg-[url('/src/assets/svg/ic-check.svg')]
+  }
 }

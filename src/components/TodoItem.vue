@@ -1,5 +1,5 @@
 <script setup>
-	import { computed } from "vue";
+	import { computed, onUpdated } from "vue";
 	const props = defineProps({
 		id: {
 			type: Number,
@@ -21,7 +21,23 @@
 
 	let valPriority = props.priority;
 
-	const priority = computed(() => {
+	// Bug: not triggered after data updated
+	// const generatePriority = computed(() => {
+	// 	console.log('priority computing')
+	// 	if (valPriority == "very-high") {
+	// 		return "bg-danger";
+	// 	} else if (valPriority == "high") {
+	// 		return "bg-warning";
+	// 	} else if (valPriority == "normal") {
+	// 		return "bg-success";
+	// 	} else if (valPriority == "low") {
+	// 		return "bg-cyan";
+	// 	} else {
+	// 		return "bg-magenta";
+	// 	}
+	// });
+
+	function generatePriority(valPriority) {
 		if (valPriority == "very-high") {
 			return "bg-danger";
 		} else if (valPriority == "high") {
@@ -33,7 +49,7 @@
 		} else {
 			return "bg-magenta";
 		}
-	});
+	}
 </script>
 
 <template>
@@ -51,7 +67,7 @@
 				<label :for="`${title}Checkbox`" class="check--label cursor-pointer">
 					<span class="check--label-box"></span>
 					<span class="check--label-text">
-						<span class="md:w-[9px] w-[5px] md:h-[9px] h-[5px] rounded-full" :class="priority"></span>
+						<span class="md:w-[9px] w-[5px] md:h-[9px] h-[5px] rounded-full" :class="generatePriority(priority)"></span>
 						<p class="font-medium text-sm md:text-lg">{{ title }}</p>
 					</span>
 				</label>

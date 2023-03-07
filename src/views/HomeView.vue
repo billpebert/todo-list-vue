@@ -9,7 +9,9 @@
 	const activities = ref([]);
 	const api = inject("api");
 	const email = inject("email");
-    let showToast = ref(false)
+	let isLoading = ref(false);
+	let showToast = ref(false);
+	let toastText = ref("");
 
 	// Pass activity variables to ModalDelete component
 	let activityName = ref();
@@ -17,12 +19,25 @@
 
 	// email params to get data of drafted email only
 	async function getActivities() {
-		try {
-			const response = await axios.get(`${api}/activity-groups?email=bilpo@mail.com`);
-			activities.value = response.data.data;
-		} catch (error) {
-			console.error(error);
-		}
+		// try {
+		// 	const response = await axios.get(`${api}/activity-groups?email=bilpo@mail.com`);
+		// 	activities.value = response.data.data;
+		// } catch (error) {
+		// 	console.error(error);
+		// }
+		isLoading.value = true;
+		axios
+			.get(`${api}/activity-groups?email=bilpo@mail.com`)
+			.then((response) => {
+				// console.log(response)
+				activities.value = response.data.data;
+			})
+			.catch(function (error) {
+				console.log(error);
+			})
+			.finally(() => {
+				isLoading.value = false;
+			});
 	}
 
 	function createActivity() {
@@ -45,7 +60,8 @@
 			.delete(`${api}/activity-groups/${id}`)
 			.then(function (response) {
 				getActivities();
-                showToast.value = true
+				toastText.value = "Activity berhasil dihapus";
+				showToast.value = true;
 			})
 			.catch(function (error) {
 				console.log(error);
@@ -62,14 +78,14 @@
 </script>
 
 <template>
-	<div class="container">
+	<div class="container" v-if="!isLoading" data-cy="home-view">
 		<div class="flex items-center justify-between">
 			<h1 class="text-base md:text-4xl font-bold">Activity</h1>
-			<Button label="Tambah" icon="/src/assets/svg/ic-plus.svg" variant="primary" @click="createActivity" />
+			<Button label="Tambah" icon="/src/assets/svg/ic-plus.svg" variant="primary" @click="createActivity" data-cy="button" />
 		</div>
 
 		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-[50px] gap-x-5 gap-y-6">
-			<template v-for="activity in activities" :key="activity.id">
+			<template v-for="activity in activities" :key="activity.id" data-cy="todo-card">
 				<TodoCard
 					:id="activity.id"
 					:title="activity.title"
@@ -79,9 +95,9 @@
 			</template>
 		</div>
 
-		<ModalDelete :activityName="activityName" :activityId="activityId" @delete-activity="deleteActivity" />
+		<ModalDelete :activityName="activityName" :activityId="activityId" @delete-activity="deleteActivity" data-cy="modal-delete" />
 
-		<ToastProps v-if="showToast" />
+		<ToastProps v-if="showToast" :text="toastText" data-cy="toast-props" />
 		<img
 			v-if="!activities.length"
 			src="@/assets/svg/activity-empty.svg"
@@ -95,4 +111,12 @@
 			alt=""
 		/>
 	</div>
+	
+	<template v-else>
+		<img
+			src="@/assets/svg/loader.svg"
+			class="mx-auto"
+			alt=""
+		/>
+	</template>
 </template>

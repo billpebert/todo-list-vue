@@ -7,7 +7,8 @@
 	import { useRoute, RouterLink } from "vue-router";
 	import ToastProps from "../components/ToastProps.vue";
 	import ModalDelete from "../components/ModalDelete.vue";
-import ModalEdit from "../components/ModalEdit.vue";
+	import ModalEdit from "../components/ModalEdit.vue";
+	import DropdownSort from "../components/DropdownSort.vue";
 
 	const route = useRoute();
 	const api = inject("api");
@@ -18,6 +19,7 @@ import ModalEdit from "../components/ModalEdit.vue";
 	let activityTitle = ref();
 	let showModal = ref(false);
 	let showToast = ref(false);
+	let toastText = ref("");
 
 	// Pass activity variables to ModalDelete component
 	let activityName = ref();
@@ -81,7 +83,7 @@ import ModalEdit from "../components/ModalEdit.vue";
 	}
 
 	function updateItem(title, itemId, groupId, priority) {
-		console.log(title, itemId, groupId, priority)
+		// console.log(title, itemId, groupId, priority)
 		axios
 			.patch(`${api}/todo-items/${itemId}`, {
 				id: itemId,
@@ -93,7 +95,7 @@ import ModalEdit from "../components/ModalEdit.vue";
 				console.error(error);
 			})
 			.finally(() => {
-				getActivity()
+				getActivity();
 			});
 	}
 
@@ -102,6 +104,7 @@ import ModalEdit from "../components/ModalEdit.vue";
 			.delete(`${api}/todo-items/${id}`)
 			.then(() => {
 				getActivity();
+				toastText.value = "List berhasil dihapus";
 				showToast.value = true;
 			})
 			.catch((error) => {
@@ -114,9 +117,9 @@ import ModalEdit from "../components/ModalEdit.vue";
 			.patch(`${api}/todo-items/${id}`, {
 				is_active: value,
 			})
-			.then(() => {
-				getActivity();
-			})
+			// .then(() => {
+			// 	getActivity();
+			// })
 			.catch((error) => {
 				console.log(error);
 			});
@@ -143,13 +146,50 @@ import ModalEdit from "../components/ModalEdit.vue";
 		return (itemId.value = id), (itemName.value = name), (itemPriority.value = priority);
 	}
 
+	function sortData(type) {
+		const todoItems = todo_items.value
+		console.log(activity.value.todo_items)
+		if (type == "asc") {
+			todoItems.sort(function (a, b) {
+				// changing the case (to upper or lower) ensures a case insensitive sort.
+				let textA = a.title.toUpperCase();
+				let textB = b.title.toUpperCase();
+				return textA < textB ? -1 : textA > textB ? 1 : 0;
+			});
+			// console.log(todoItems)
+		} else if (type == "desc") {
+			todoItems.sort(function (a, b) {
+				// changing the case (to upper or lower) ensures a case insensitive sort.
+				let textA = a.title.toUpperCase();
+				let textB = b.title.toUpperCase();
+				return textA > textB ? -1 : textA < textB ? 1 : 0;
+			});
+		} else if (type == "newest") {
+			todoItems.sort(function (a, b) {
+				let idA = new Date(a.id);
+				let idB = new Date(b.id);
+				return idB - idA
+			});
+		} else if (type == "oldest") {
+			todoItems.sort(function (a, b) {
+				let idA = new Date(a.id);
+				let idB = new Date(b.id);
+				return idA - idB
+			});
+		} else if (type == "ongoing") {
+			todoItems.sort(function (a, b) {
+				return a.is_active - b.is_active
+			});
+		}
+	}
+
 	onMounted(() => {
 		getActivity();
 	});
 </script>
 
 <template>
-	<div class="container">
+	<div class="container" data-cy="activity-list-item">
 		<div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
 			<div class="inline-flex items-center gap-5 justify-between md:justify-start w-max">
 				<!-- Back Button -->
@@ -177,9 +217,8 @@ import ModalEdit from "../components/ModalEdit.vue";
 			</div>
 			<div class="inline-flex items-center gap-5 self-end">
 				<!-- Sort Button -->
-				<button type="button" class="border border-[#e5e5e5] rounded-full p-[11px] md:p-[15px]">
-					<img src="@/assets/svg/ic-arrows.svg" class="w-4 md:w-6" alt="" />
-				</button>
+				<DropdownSort data-cy="dropdown-sort" @sort-data="sortData" />
+
 				<Button
 					label="Tambah"
 					icon="/src/assets/svg/ic-plus.svg"
@@ -217,13 +256,30 @@ import ModalEdit from "../components/ModalEdit.vue";
 			alt=""
 		/>
 
-		<ToastProps v-if="showToast" />
+		<ToastProps v-if="showToast" :text="toastText" data-cy="toast-props" />
 
 		<template v-if="showModal">
-			<ModalCreate modal-type="create" :activity-id="activity.id" @create-item="createItem" />
-			<ModalEdit :activity-id="activity.id" :id="itemId" v-model:priority="itemPriority" v-model:title="itemName" @update-item="updateItem" />
+			<ModalCreate
+				modal-type="create"
+				:activity-id="activity.id"
+				@create-item="createItem"
+				data-cy="modal-create"
+			/>
+			<ModalEdit
+				:activity-id="activity.id"
+				:id="itemId"
+				v-model:priority="itemPriority"
+				v-model:title="itemName"
+				@update-item="updateItem"
+				data-cy="modal-edit"
+			/>
 			<!-- <ModalCreate modal-type="edit" :activity-id="activity.id" :id="itemId" :selected-priority="itemPriority" :title-form="itemName" /> -->
-			<ModalDelete :activityName="activityName" :activityId="activityId" @delete-activity="deleteActivity" />
+			<ModalDelete
+				:activityName="activityName"
+				:activityId="activityId"
+				@delete-activity="deleteActivity"
+				data-cy="modal-delete"
+			/>
 		</template>
 	</div>
 </template>

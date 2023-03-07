@@ -1,4 +1,11 @@
-
+<script setup>
+defineProps({
+	text: {
+		type: String,
+		required: true
+	}
+})
+</script>
 <template>
 	<div class="fixed top-8 right-4 md:top-5 md:right-5">
 		<!-- <div class="flex justify-center space-x-2"> -->
@@ -38,7 +45,7 @@
 						stroke-linejoin="round"
 					/>
 				</svg>
-				<p class="font-medium text-sm text-dark ml-[10px]">Activity berhasil dihapus</p>
+				<p class="font-medium text-sm text-dark ml-[10px]">{{ text }}</p>
 			</div>
 		</div>
 	</div>

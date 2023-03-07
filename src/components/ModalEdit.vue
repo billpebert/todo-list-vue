@@ -12,36 +12,39 @@
 			type: Number,
 		},
 		priority: {
-			type: String
+			type: String,
 		},
 		title: {
-			type: String
-		}
+			type: String,
+		},
 	});
+
+	// let myOptions =  ref(['op1', 'op2', 'op3'])
+	// let select2Value = ref('')
 
 	// defineEmits(['update:title', 'update:priority'])
 
-	let titleForm = ref("");
-	let selectedPriority = ref("");
+	// let titleForm = ref("");
+	// let selectedPriority = ref("");
 	let priorityOptions = ref(["very-high", "high", "normal", "low", "very-low"]);
 
 	const allowSubmit = computed(() => {
 		return props.titleForm != "";
 	});
 
-	function updateTitle(val) {
-		titleForm.value = val.target.value
-		console.log(titleForm.value)
-	}
+	// function updateTitle(val) {
+	// 	titleForm.value = val.target.value
+	// 	console.log(titleForm.value)
+	// }
 
-	function updatePriority(val){
-		selectedPriority.value = val.target.value
-		// console.log(selectedPriority.value)
-	}
+	// function updatePriority(val){
+	// 	selectedPriority.value = val.target.value
+	// 	// console.log(selectedPriority.value)
+	// }
 
-	onUpdated(() => {
-		console.log(props.title, props.priority)
-	})
+	// onUpdated(() => {
+	// 	console.log(props.title, props.priority)
+	// })
 </script>
 
 <template>
@@ -64,9 +67,7 @@
 				<div
 					class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4"
 				>
-					<h5 class="text-lg font-medium leading-normal text-neutral-800" id="modalUpdateLabel">
-						Edit Item
-					</h5>
+					<h5 class="text-lg font-medium leading-normal text-neutral-800" id="modalUpdateLabel">Edit Item</h5>
 					<button
 						type="button"
 						class="box-content rounded-none border-none hover:no-underline hover:opacity-75 focus:opacity-100 focus:shadow-none focus:outline-none"
@@ -98,7 +99,7 @@
 							placeholder="Tambahkan nama list item"
 							class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200"
 							:value="title"
-							@input="$emit('update:title', $event.target.value);"
+							@input="$emit('update:title', $event.target.value)"
 						/>
 					</div>
 
@@ -121,8 +122,8 @@
 					</div>
 
 					<!-- <div>
-						<Select2 v-model="priorityForm" :options="priorityOptions" />
-						<h4>Value: {{ priorityForm }}</h4>
+						<Select2 v-model="select2Value" :options="myOptions" />
+						<h4>Value: {{ select2Value }}</h4>
 					</div> -->
 				</div>
 				<div
@@ -132,7 +133,7 @@
 						label="Simpan"
 						variant="primary"
 						:disabled="allowSubmit == false"
-						@click="$emit('updateItem', title, id, activityId, priority);"
+						@click="$emit('updateItem', title, id, activityId, priority)"
 						data-te-modal-dismiss
 					/>
 				</div>
