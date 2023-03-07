@@ -5,6 +5,9 @@
 	import axios from "axios";
 	import { onMounted, ref, inject, computed } from "vue";
 	import { useRoute, RouterLink } from "vue-router";
+	import ToastProps from "../components/ToastProps.vue";
+	import ModalDelete from "../components/ModalDelete.vue";
+import ModalEdit from "../components/ModalEdit.vue";
 
 	const route = useRoute();
 	const api = inject("api");
@@ -13,7 +16,17 @@
 	let showForm = ref(false);
 	let showActivityTitle = ref(true);
 	let activityTitle = ref();
-	let showModal = ref(false)
+	let showModal = ref(false);
+	let showToast = ref(false);
+
+	// Pass activity variables to ModalDelete component
+	let activityName = ref();
+	let activityId = ref();
+
+	// Pass data to modal edit
+	let itemName = ref();
+	let itemId = ref();
+	let itemPriority = ref();
 
 	function getActivity() {
 		axios
@@ -25,8 +38,9 @@
 			})
 			.catch((error) => {
 				console.log(error);
-			}).finally(() => {
-				showModal.value = true
+			})
+			.finally(() => {
+				showModal.value = true;
 			});
 	}
 
@@ -58,34 +72,54 @@
 				priority: priority,
 			})
 			.then((response) => {
-				getActivity()
-				console.log(response);
+				getActivity();
+				// console.log(response);
 			})
 			.catch((error) => {
 				console.error(error);
 			});
 	}
 
-	function deleteItem(id) {
-		axios.delete(`${api}/todo-items/${id}`)
-		.then(() => {
-			getActivity()
-		})
-		.catch((error) => {
-			console.log(error)
-		})
+	function updateItem(title, itemId, groupId, priority) {
+		console.log(title, itemId, groupId, priority)
+		axios
+			.patch(`${api}/todo-items/${itemId}`, {
+				id: itemId,
+				title: title,
+				activity_group_id: groupId,
+				priority: priority,
+			})
+			.catch((error) => {
+				console.error(error);
+			})
+			.finally(() => {
+				getActivity()
+			});
+	}
+
+	function deleteActivity(id) {
+		axios
+			.delete(`${api}/todo-items/${id}`)
+			.then(() => {
+				getActivity();
+				showToast.value = true;
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 
 	function markAsDone(id, value) {
-		axios.patch(`${api}/todo-items/${id}`, {
-			is_active: value
-		})
-		.then(() => {
-			getActivity()
-		})
-		.catch((error) => {
-			console.log(error)
-		})
+		axios
+			.patch(`${api}/todo-items/${id}`, {
+				is_active: value,
+			})
+			.then(() => {
+				getActivity();
+			})
+			.catch((error) => {
+				console.log(error);
+			});
 	}
 
 	function toggleEditActName() {
@@ -97,6 +131,16 @@
 				document.getElementById("activityName").focus();
 			}, 10);
 		}
+	}
+
+	function passActivityData(id, name) {
+		// console.log(id, name)
+		return (activityName.value = name), (activityId.value = id);
+	}
+
+	function passItemData(id, name, priority) {
+		// console.log(id, name, priority)
+		return (itemId.value = id), (itemName.value = name), (itemPriority.value = priority);
 	}
 
 	onMounted(() => {
@@ -148,7 +192,15 @@
 
 		<div class="flex flex-col mt-7 md:mt-[50px] gap-y-[10px]">
 			<template v-for="item in todo_items" :key="item.id">
-				<TodoItem :id="item.id" :title="item.title" :priority="item.priority" :is-active="item.is_active" @delete-item="deleteItem" @mark-as-done="markAsDone" />
+				<TodoItem
+					:id="item.id"
+					:title="item.title"
+					:priority="item.priority"
+					:is-active="item.is_active"
+					@mark-as-done="markAsDone"
+					@pass-activity-data="passActivityData"
+					@pass-item-data="passItemData"
+				/>
 			</template>
 		</div>
 
@@ -165,8 +217,13 @@
 			alt=""
 		/>
 
+		<ToastProps v-if="showToast" />
+
 		<template v-if="showModal">
-			<ModalCreate :id="activity.id" @create-item="createItem" />
+			<ModalCreate modal-type="create" :activity-id="activity.id" @create-item="createItem" />
+			<ModalEdit :activity-id="activity.id" :id="itemId" v-model:priority="itemPriority" v-model:title="itemName" @update-item="updateItem" />
+			<!-- <ModalCreate modal-type="edit" :activity-id="activity.id" :id="itemId" :selected-priority="itemPriority" :title-form="itemName" /> -->
+			<ModalDelete :activityName="activityName" :activityId="activityId" @delete-activity="deleteActivity" />
 		</template>
 	</div>
 </template>

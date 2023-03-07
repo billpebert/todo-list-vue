@@ -33,7 +33,7 @@
 						<img src="@/assets/svg/ic-exclamation-triangle.svg" alt="" />
 						<p class="text-center font-medium text-sm md:text-lg my-7 md:my-8">
 							Apakah anda yakin menghapus activity <br class="hidden md:block" />
-							<span class="font-bold"> "{{ activityName }}" {{ activityId }} </span>?
+							<span class="font-bold">"{{ activityName }}"</span>?
 						</p>
 						<div class="inline-flex gap-5">
 							<Button label="Batal" variant="secondary" data-te-modal-dismiss aria-label="Close" />

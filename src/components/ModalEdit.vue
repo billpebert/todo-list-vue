@@ -1,12 +1,9 @@
 <script setup>
 	// import { Select2 } from "vue3-select2-component";
-	import Button from "../components/Button.vue";
-	import { ref, computed } from "vue";
+	import Button from "./Button.vue";
+	import { ref, computed, onUpdated, defineEmits } from "vue";
 
 	const props = defineProps({
-		modalType: {
-			type: String
-		},
 		activityId: {
 			type: Number,
 			required: true,
@@ -14,30 +11,37 @@
 		id: {
 			type: Number,
 		},
-		selectedPriority: {
-			default: 'very-high',
+		priority: {
 			type: String
 		},
-		titleForm: {
-			default: "",
+		title: {
 			type: String
 		}
 	});
 
+	// defineEmits(['update:title', 'update:priority'])
+
 	let titleForm = ref("");
-	let selectedPriority = ref("very-high");
+	let selectedPriority = ref("");
 	let priorityOptions = ref(["very-high", "high", "normal", "low", "very-low"]);
 
 	const allowSubmit = computed(() => {
-		return titleForm.value != "";
+		return props.titleForm != "";
 	});
 
-	// function showSelected(){
-	// 	console.log(titleForm)
-	// 	console.log(selectedPriority.value)
-	// }
+	function updateTitle(val) {
+		titleForm.value = val.target.value
+		console.log(titleForm.value)
+	}
 
+	function updatePriority(val){
+		selectedPriority.value = val.target.value
+		// console.log(selectedPriority.value)
+	}
 
+	onUpdated(() => {
+		console.log(props.title, props.priority)
+	})
 </script>
 
 <template>
@@ -45,9 +49,9 @@
 	<div
 		data-te-modal-init
 		class="fixed top-0 left-0 z-[1055] hidden h-full w-full overflow-y-auto overflow-x-hidden outline-none"
-		id="exampleModal"
+		id="modalUpdate"
 		tabindex="-1"
-		aria-labelledby="exampleModalLabel"
+		aria-labelledby="modalUpdateLabel"
 		aria-hidden="true"
 	>
 		<div
@@ -60,8 +64,8 @@
 				<div
 					class="flex flex-shrink-0 items-center justify-between rounded-t-md border-b-2 border-neutral-100 border-opacity-100 p-4"
 				>
-					<h5 class="text-lg font-medium leading-normal text-neutral-800" id="exampleModalLabel">
-						{{ modalType == 'create' ? 'Tambah List' : 'Edit' }} Item
+					<h5 class="text-lg font-medium leading-normal text-neutral-800" id="modalUpdateLabel">
+						Edit Item
 					</h5>
 					<button
 						type="button"
@@ -93,7 +97,8 @@
 							id=""
 							placeholder="Tambahkan nama list item"
 							class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200"
-							v-model="titleForm"
+							:value="title"
+							@input="$emit('update:title', $event.target.value);"
 						/>
 					</div>
 
@@ -102,9 +107,10 @@
 						<select
 							name="priority"
 							id="dd"
-							v-model="selectedPriority"
+							:value="priority"
 							class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200 max-w-[200px] arrow-dropdown capitalize"
 							required
+							@change="$emit('update:priority', $event.target.value)"
 						>
 							<template v-for="(option, index) in priorityOptions" :key="index">
 								<option :value="option" class="capitalize" :selected="index == 0">
@@ -126,7 +132,7 @@
 						label="Simpan"
 						variant="primary"
 						:disabled="allowSubmit == false"
-						@click="$emit('createItem', titleForm, activityId, selectedPriority); titleForm=''; selectedPriority='very-high'"
+						@click="$emit('updateItem', title, id, activityId, priority);"
 						data-te-modal-dismiss
 					/>
 				</div>
