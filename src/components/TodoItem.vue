@@ -63,12 +63,15 @@
 					class="hidden-box"
 					:checked="!isActive"
 					@click="$emit('markAsDone', id, !isActive)"
-					data-cy=todo-item-checkbox
+					data-cy="todo-item-checkbox"
 				/>
 				<label :for="`${title}Checkbox`" class="check--label cursor-pointer">
 					<span class="check--label-box"></span>
 					<span class="check--label-text">
-						<span class="md:w-[9px] w-[5px] md:h-[9px] h-[5px] rounded-full" :class="generatePriority(priority)"></span>
+						<span
+							class="md:w-[9px] w-[5px] md:h-[9px] h-[5px] rounded-full"
+							:class="generatePriority(priority)"
+						></span>
 						<p class="font-medium text-sm md:text-lg">{{ title }}</p>
 					</span>
 				</label>
@@ -88,7 +91,7 @@
 				@click="$emit('passActivityData', id, title)"
 				data-te-toggle="modal"
 				data-te-target="#modalDelete"
-				data-cy=todo-item-delete-button
+				data-cy="todo-item-delete-button"
 			>
 				<img src="@/assets/svg/ic-trash.svg" alt="" />
 			</button>

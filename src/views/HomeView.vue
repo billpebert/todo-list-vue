@@ -81,7 +81,13 @@
 	<div class="container" v-if="!isLoading" data-cy="home-view">
 		<div class="flex items-center justify-between">
 			<h1 class="text-base md:text-4xl font-bold">Activity</h1>
-			<Button label="Tambah" icon="@/assets/svg/ic-plus.svg" variant="primary" @click="createActivity" data-cy=activity-add-button />
+			<Button
+				label="Tambah"
+				icon="@/assets/svg/ic-plus.svg"
+				variant="primary"
+				@click="createActivity"
+				data-cy="activity-add-button"
+			/>
 		</div>
 
 		<div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mt-[50px] gap-x-5 gap-y-6">
@@ -95,7 +101,12 @@
 			</template>
 		</div>
 
-		<ModalDelete :activityName="activityName" :activityId="activityId" @delete-activity="deleteActivity" data-cy="modal-delete" />
+		<ModalDelete
+			:activityName="activityName"
+			:activityId="activityId"
+			@delete-activity="deleteActivity"
+			data-cy="modal-delete"
+		/>
 
 		<ToastProps v-if="showToast" :text="toastText" data-cy="toast-props" />
 		<img
@@ -111,12 +122,8 @@
 			alt=""
 		/>
 	</div>
-	
+
 	<template v-else>
-		<img
-			src="@/assets/svg/loader.svg"
-			class="mx-auto"
-			alt=""
-		/>
+		<img src="@/assets/svg/loader.svg" class="mx-auto" alt="" />
 	</template>
 </template>

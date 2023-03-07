@@ -91,13 +91,16 @@
 							placeholder="Tambahkan nama list item"
 							class="placeholder:text-[#A4A4A4] text-dark py-[14px] px-[18px] text-sm md:text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200"
 							v-model="titleForm"
-							data-cy=modal-add-name-input
+							data-cy="modal-add-name-input"
 						/>
 					</div>
 
 					<div class="flex flex-col gap-2">
 						<label for="" class="text-dark font-semibold text-xs">Name List Item</label>
-						<PriorityOptions :priorities="priorityOptions" @update-selected="updateSelected" data-cy="priority-options" />
+						<PriorityOptions
+							:priorities="priorityOptions"
+							@update-selected="updateSelected"
+						/>
 					</div>
 				</div>
 				<div
@@ -113,7 +116,7 @@
 							selectedPriority = 'very-high';
 						"
 						data-te-modal-dismiss
-						data-cy=modal-add-save-button
+						data-cy="modal-add-save-button"
 					/>
 				</div>
 			</div>

@@ -137,6 +137,7 @@
 								aria-expanded="false"
 								data-te-dropdown-animation="off"
 								@click.prevent="rotateArrow"
+								data-cy="modal-add-priority-dropdown"
 							>
 								<span
 									class="md:w-[9px] w-[5px] md:h-[9px] h-[5px] rounded-full mr-5"

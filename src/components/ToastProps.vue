@@ -1,13 +1,13 @@
 <script setup>
-defineProps({
-	text: {
-		type: String,
-		required: true
-	}
-})
+	defineProps({
+		text: {
+			type: String,
+			required: true,
+		},
+	});
 </script>
 <template>
-	<div class="fixed top-8 right-4 md:top-5 md:right-5" data-cy=modal-information>
+	<div class="fixed top-8 right-4 md:top-5 md:right-5" data-cy="modal-information">
 		<!-- <div class="flex justify-center space-x-2"> -->
 		<div
 			class="pointer-events-auto mx-auto hidden w-96 max-w-full rounded-lg bg-white text-sm shadow-md shadow-black/5 data-[te-toast-show]:block data-[te-toast-hide]:hidden"

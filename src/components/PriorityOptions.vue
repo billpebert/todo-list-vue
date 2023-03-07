@@ -5,10 +5,10 @@
 			type: Array,
 			required: true,
 		},
-        // selectedOption: {
-        //     type: String,
-        //     default: 'Pilih priority'
-        // }
+		// selectedOption: {
+		//     type: String,
+		//     default: 'Pilih priority'
+		// }
 	});
 
 	let selectedOption = ref("Pilih priority");
@@ -33,16 +33,16 @@
 		const arrowIcon = document.getElementById("arrowDD");
 		const myDropdown = document.getElementById("dropDownPriority");
 		myDropdown.addEventListener("shown.te.dropdown", () => {
-            arrowIcon.classList.add("rotate-180");
+			arrowIcon.classList.add("rotate-180");
 		});
 		myDropdown.addEventListener("hidden.te.dropdown", () => {
-            arrowIcon.classList.remove("rotate-180");
+			arrowIcon.classList.remove("rotate-180");
 		});
 	}
 </script>
 
 <template>
-	<div class="relative w-max" data-te-dropdown-ref data-cy=modal-add-priority-dropdown>
+	<div class="relative w-max" data-te-dropdown-ref data-cy="modal-add-priority-dropdown">
 		<button
 			class="flex items-center whitespace-nowrap transition duration-150 ease-in-out text-dark py-[14px] px-[18px] text-sm md:text-base outline-none border border-[#e5e5e5] rounded-md focus:ring ring-sky-200 capitalize w-max group"
 			type="button"
@@ -72,7 +72,10 @@
 						class="flex items-center w-full whitespace-nowrap bg-transparent py-2 md:py-[14px] px-4 text-sm md:text-base font-normal text-[#4A4A4A] hover:bg-neutral-100 active:text-neutral-800 active:no-underline disabled:pointer-events-none disabled:bg-transparent disabled:text-neutral-400 capitalize"
 						href="#"
 						data-te-dropdown-item-ref
-						@click.prevent="$emit('updateSelected', priority); selectedOption = priority"
+						@click.prevent="
+							$emit('updateSelected', priority);
+							selectedOption = priority;
+						"
 					>
 						<span
 							class="md:w-[9px] w-[5px] md:h-[9px] h-[5px] rounded-full mr-5"

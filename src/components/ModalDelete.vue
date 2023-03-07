@@ -20,7 +20,7 @@
 		tabindex="-1"
 		aria-labelledby="exampleModalLabel"
 		aria-hidden="true"
-		data-cy=activity-item-delete-button
+		data-cy="activity-item-delete-button"
 	>
 		<div
 			data-te-modal-dialog-ref
@@ -28,6 +28,7 @@
 		>
 			<div
 				class="sm:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-xl border-none bg-white bg-clip-padding text-current shadow-lg outline-none"
+				data-cy="todo-modal-delete"
 			>
 				<div class="relative flex-auto flex flex-col gap-[26px] p-5 md:p-10" data-te-modal-body-ref>
 					<div class="flex flex-col gap-2 items-center">
@@ -37,8 +38,20 @@
 							<span class="font-bold">"{{ activityName }}"</span>?
 						</p>
 						<div class="inline-flex gap-5">
-							<Button label="Batal" variant="secondary" data-te-modal-dismiss aria-label="Close" data-cy=modal-delete-cancel-button />
-							<Button label="Hapus" variant="danger" data-te-modal-dismiss @click="$emit('deleteActivity', activityId)" data-cy=modal-delete-confirm-button />
+							<Button
+								label="Batal"
+								variant="secondary"
+								data-te-modal-dismiss
+								aria-label="Close"
+								data-cy="modal-delete-cancel-button"
+							/>
+							<Button
+								label="Hapus"
+								variant="danger"
+								data-te-modal-dismiss
+								@click="$emit('deleteActivity', activityId)"
+								data-cy="modal-delete-confirm-button"
+							/>
 						</div>
 					</div>
 				</div>
