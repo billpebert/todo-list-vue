@@ -78,7 +78,7 @@
 </script>
 
 <template>
-	<div class="container" v-if="!isLoading" data-cy="home-view">
+	<div class="container" data-cy="home-view">
 		<div class="flex items-center justify-between">
 			<h1 class="text-base md:text-4xl font-bold" data-cy="activity-title">Activity</h1>
 			<!-- <Button
@@ -135,7 +135,7 @@
 		</div>
 	</div>
 
-	<template v-else>
+	<!-- <template v-else>
 		<img src="@/assets/svg/loader.svg" class="mx-auto" alt="" />
-	</template>
+	</template> -->
 </template>

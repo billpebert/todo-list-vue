@@ -200,7 +200,7 @@
 </script>
 
 <template>
-	<div class="container" data-cy="activity-list-item" v-if="!isLoading">
+	<div class="container" data-cy="activity-list-item">
 		<div class="flex flex-col md:flex-row md:items-center justify-between gap-8">
 			<div class="inline-flex items-center gap-5 justify-between md:justify-start w-max">
 				<!-- Back Button -->
@@ -304,7 +304,7 @@
 			/>
 		</template>
 	</div>
-	<template v-else>
+	<!-- <template v-else>
 		<img src="@/assets/svg/loader.svg" class="mx-auto" alt="" />
-	</template>
+	</template> -->
 </template>
