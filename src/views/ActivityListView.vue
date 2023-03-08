@@ -209,7 +209,7 @@
 						<img src="@/assets/svg/ic-chevron-left.svg" alt="" />
 					</button>
 				</RouterLink>
-				<h1 class="text-base md:text-4xl font-bold" id="activityH1" v-if="showActivityTitle">
+				<h1 class="text-base md:text-4xl font-bold" id="activityH1" v-if="showActivityTitle" data-cy="todo-title">
 					{{ activity.title }}
 				</h1>
 				<input

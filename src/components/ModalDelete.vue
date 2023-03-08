@@ -29,7 +29,7 @@
 				class="sm:shadow-[0_0.5rem_1rem_rgba(#000, 0.15)] pointer-events-auto relative flex w-full flex-col rounded-xl border-none bg-white bg-clip-padding text-current shadow-lg outline-none"
 				data-cy="todo-modal-delete"
 			>
-				<div class="relative flex-auto flex flex-col gap-[26px] p-5 md:p-10" data-te-modal-body-ref>
+				<div class="relative flex-auto flex flex-col gap-[26px] p-5 md:p-10" data-te-modal-body-ref data-cy="modal-delete">
 					<div class="flex flex-col gap-2 items-center">
 						<img src="@/assets/svg/ic-exclamation-triangle.svg" alt="" />
 						<p class="text-center font-medium text-sm md:text-lg my-7 md:my-8">

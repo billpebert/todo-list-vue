@@ -80,7 +80,7 @@
 <template>
 	<div class="container" v-if="!isLoading" data-cy="home-view">
 		<div class="flex items-center justify-between">
-			<h1 class="text-base md:text-4xl font-bold">Activity</h1>
+			<h1 class="text-base md:text-4xl font-bold" data-cy="activity-title">Activity</h1>
 			<!-- <Button
 				label="Tambah"
 				icon="svg/ic-plus.svg"
