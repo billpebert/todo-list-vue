@@ -209,7 +209,7 @@
 						<img src="@/assets/svg/ic-chevron-left.svg" alt="" />
 					</button>
 				</RouterLink>
-				<h1 class="text-base md:text-4xl font-bold" id="activityH1" v-if="showActivityTitle" data-cy="todo-title">
+				<h1 class="text-base md:text-4xl font-bold" id="activityH1" v-if="showActivityTitle" data-cy="todo-title" @click="toggleEditActName">
 					{{ activity.title }}
 				</h1>
 				<input
@@ -220,8 +220,7 @@
 					name="activity_name"
 					id="activityName"
 					v-model="activityTitle"
-					@keyup.enter="updateActivity"
-					data-cy="todo-title"
+					@focusout="updateActivity"
 				/>
 				<button type="button" class="w-5 md:w-6" @click="toggleEditActName">
 					<img src="@/assets/svg/ic-pencil.svg" alt="" />
@@ -279,7 +278,7 @@
 			alt=""
 		/>
 
-		<ToastProps v-if="showToast" :text="toastText" data-cy="toast-props" />
+		<ToastProps v-if="showToast" :text="toastText" />
 
 		<template v-if="showModal">
 			<ModalCreate

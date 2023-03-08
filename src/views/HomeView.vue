@@ -115,22 +115,24 @@
 			:activityName="activityName"
 			:activityId="activityId"
 			@delete-activity="deleteActivity"
-			data-cy="activity-item-delete-button"
 		/>
 
-		<ToastProps v-if="showToast" :text="toastText" data-cy="toast-props" />
-		<img
-			v-if="!activities.length"
-			src="@/assets/svg/activity-empty.svg"
-			class="h-[490px] w-auto mx-auto md:mt-[60px] hidden md:block"
-			alt=""
-		/>
-		<img
-			v-if="!activities.length"
-			src="@/assets/svg/activity-empty-sm-screen.svg"
-			class="w-auto mx-auto md:mt-[60px] block md:hidden mt-20"
-			alt=""
-		/>
+		<ToastProps v-if="showToast" :text="toastText" />
+
+		<div data-cy="activity-empty-state">
+			<img
+				v-if="!activities.length"
+				src="@/assets/svg/activity-empty.svg"
+				class="h-[490px] w-auto mx-auto md:mt-[60px] hidden md:block"
+				alt=""
+			/>
+			<img
+				v-if="!activities.length"
+				src="@/assets/svg/activity-empty-sm-screen.svg"
+				class="w-auto mx-auto md:mt-[60px] block md:hidden mt-20"
+				alt=""
+			/>
+		</div>
 	</div>
 
 	<template v-else>
