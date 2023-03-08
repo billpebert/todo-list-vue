@@ -78,7 +78,7 @@
 </script>
 
 <template>
-	<div class="container" data-cy="home-view">
+	<div class="container">
 		<div class="flex items-center justify-between">
 			<h1 class="text-base md:text-4xl font-bold" data-cy="activity-title">Activity</h1>
 			<!-- <Button
