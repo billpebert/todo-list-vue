@@ -92,8 +92,7 @@
 				type="button"
 				class="flex items-center text-xs md:text-lg font-semibold rounded-full px-[15px] md:px-7 py-2 md:py-3 disabled:bg-opacity-20 bg-skyBlue text-white"
 				data-cy="activity-add-button"
-				data-te-toggle="modal"
-				data-te-target="#exampleModal"
+				@click="createActivity"
 			>
 				<img src="@/assets/svg/ic-plus.svg" class="mr-[6px] w-3 md:w-6" alt="" />
 				Tambah
